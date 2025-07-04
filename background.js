@@ -56,7 +56,7 @@ async function analyzePostWithGPT(content) {
             - Hiring announcements
             - Career development programs
             - Mentorship opportunities
-            - Networking events with career focus`
+            - Networking / event opportunities`
           },
           {
             role: 'user',

@@ -131,6 +131,43 @@ class LockedInFilter {
     return null;
   }
 
+  extractUserName(postElement) {
+    // Try multiple selectors to find the user's name
+    const nameSelectors = [
+      '.feed-shared-actor__name',
+      '.feed-shared-actor__title',
+      '[data-test-id="post-actor-name"]',
+      '.feed-shared-post-meta__name',
+      '.feed-shared-actor__name-link',
+      'a[data-control-name="actor_profile"] span',
+      '.feed-shared-actor__name span'
+    ];
+
+    for (const selector of nameSelectors) {
+      const nameElement = postElement.querySelector(selector);
+      if (nameElement) {
+        const name = nameElement.textContent.trim();
+        if (name && name.length > 0) {
+          return name;
+        }
+      }
+    }
+
+    // Fallback: try to find any link that might contain the name
+    const nameLinks = postElement.querySelectorAll('a[href*="/in/"]');
+    for (const link of nameLinks) {
+      const nameElement = link.querySelector('span');
+      if (nameElement) {
+        const name = nameElement.textContent.trim();
+        if (name && name.length > 0 && name.length < 100) {
+          return name;
+        }
+      }
+    }
+
+    return 'User';
+  }
+
   async analyzePost(content) {
     return new Promise((resolve, reject) => {
       chrome.runtime.sendMessage({
@@ -151,8 +188,12 @@ class LockedInFilter {
     const originalContent = postElement.innerHTML;
     postElement.setAttribute('data-lockedin-original', originalContent);
     
+    // Extract user name before filtering
+    const userName = this.extractUserName(postElement);
+    postElement.setAttribute('data-lockedin-username', userName);
+    
     // Create filter overlay
-    const filterOverlay = this.createFilterOverlay(analysis, postElement);
+    const filterOverlay = this.createFilterOverlay(analysis, postElement, userName);
     
     // Replace post content with filter overlay
     postElement.innerHTML = '';
@@ -162,7 +203,7 @@ class LockedInFilter {
     postElement.classList.add('lockedin-filtered');
   }
 
-  createFilterOverlay(analysis, postElement) {
+  createFilterOverlay(analysis, postElement, userName) {
     const overlay = document.createElement('div');
     overlay.className = 'lockedin-filter-overlay';
     overlay.style.cssText = `
@@ -181,13 +222,10 @@ class LockedInFilter {
       <div style="display: flex; align-items: center; justify-content: space-between;">
         <div>
           <div style="color: #6c757d; font-size: 12px; text-transform: uppercase; font-weight: 600; margin-bottom: 4px;">
-            [${category}] Post by user
-          </div>
-          <div style="color: #495057; font-size: 14px;">
-            - filtered by LockedIn
+            [${category}] | ${userName.toLowerCase().replace("1st", "").replace("2nd", "").replace("3rd", "").toUpperCase()} | Stay LockedIn™️
           </div>
           <div style="color: #6c757d; font-size: 12px; margin-top: 4px;">
-            Reason: ${reason}
+            Summary: ${reason}
           </div>
         </div>
         <button class="lockedin-show-btn" style="
@@ -217,6 +255,7 @@ class LockedInFilter {
     if (originalContent) {
       postElement.innerHTML = originalContent;
       postElement.removeAttribute('data-lockedin-original');
+      postElement.removeAttribute('data-lockedin-username');
       postElement.classList.remove('lockedin-filtered');
     }
   }
