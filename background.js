@@ -15,9 +15,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 async function analyzePostWithGPT(content) {
   try {
-    // Get API key from storage
-    const result = await chrome.storage.sync.get(['openaiApiKey']);
+    // Get API key and custom prompt from storage
+    const result = await chrome.storage.sync.get(['openaiApiKey', 'customPrompt']);
     const apiKey = result.openaiApiKey;
+    const customPrompt = result.customPrompt;
     
     if (!apiKey) {
       throw new Error('OpenAI API key not found. Please add it in the extension popup.');
@@ -34,7 +35,7 @@ async function analyzePostWithGPT(content) {
         messages: [
           {
             role: 'system',
-            content: `You are an AI assistant that analyzes LinkedIn posts to determine if they offer career opportunities or internships. 
+            content: customPrompt || `You are an AI assistant that analyzes LinkedIn posts to determine if they offer any value professionally. 
             
             Analyze the post content and respond with a JSON object containing:
             {
@@ -50,13 +51,14 @@ async function analyzePostWithGPT(content) {
             - "promotional": Company/product promotions
             - "other": Other non-opportunity content
             
-            Only mark as opportunity if the post explicitly mentions:
+            Only mark as opportunity if the post mentions:
             - Job openings
             - Internship opportunities
             - Hiring announcements
             - Career development programs
             - Mentorship opportunities
-            - Networking / event opportunities`
+            - Networking opportunities
+            - Classes and workshops`
           },
           {
             role: 'user',

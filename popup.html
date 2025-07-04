@@ -71,6 +71,28 @@
       font-size: 12px;
       color: #666;
     }
+    .prompt-section {
+      margin-top: 15px;
+      padding: 10px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .prompt-section textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-top: 5px;
+      font-size: 11px;
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      min-height: 120px;
+    }
+    .prompt-section label {
+      font-size: 12px;
+      color: #666;
+    }
   </style>
 </head>
 <body>
@@ -92,6 +114,14 @@
       <input type="password" id="apiKey" placeholder="Enter your OpenAI API key">
       <div style="font-size: 10px; color: #999; margin-top: 5px;">
         Required for post analysis
+      </div>
+    </div>
+    
+    <div class="prompt-section">
+      <label for="customPrompt">Analysis Prompt:</label>
+      <textarea id="customPrompt" rows="8" placeholder="Customize how posts are analyzed..."></textarea>
+      <div style="font-size: 10px; color: #999; margin-top: 5px;">
+        Customize the prompt used to analyze LinkedIn posts
       </div>
     </div>
   </div>

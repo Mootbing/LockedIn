@@ -16,14 +16,10 @@ class LockedInFilter {
       this.startFiltering();
     }
 
-    // Listen for toggle messages from popup
+    // Listen for messages from popup
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-      if (request.action === 'toggleFilter') {
-        if (request.enabled) {
-          this.startFiltering();
-        } else {
-          this.stopFiltering();
-        }
+      if (request.action === 'restoreAllPosts') {
+        this.restoreAllPosts();
       }
     });
   }
