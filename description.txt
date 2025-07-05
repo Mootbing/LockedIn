@@ -1,0 +1,40 @@
+LockedIn - Smart LinkedIn Post Filter
+
+Transform your LinkedIn feed into a focused career opportunity hub! LockedIn uses AI to filter out non-career content and highlight posts that offer real professional value.
+
+🔐 KEY FEATURES:
+• AI-Powered Filtering: Uses GPT-3.5 to intelligently analyze LinkedIn posts
+• Real-Time Processing: Filters posts as they load, including infinite scroll
+• Customizable Analysis: Edit the AI prompt to match your career goals
+• Smart Categories: Posts are classified (social, blog, promotional, etc.)
+• One-Click Restoration: Click "Show" to restore any filtered post
+• Clean Interface: Simple toggle switch for easy on/off control
+
+🎯 WHAT IT FILTERS:
+• Personal updates and social content
+• Blog posts and thought leadership articles
+• Company promotions and marketing
+• Non-career related content
+• Generic networking posts
+
+✅ WHAT IT KEEPS:
+• Job openings and hiring announcements
+• Internship opportunities
+• Career development programs
+• Mentorship opportunities
+• Professional networking events
+• Educational workshops and classes
+
+⚙️ CUSTOMIZATION:
+• Edit the AI analysis prompt to match your industry
+• Add custom categories and filtering rules
+• Adjust opportunity criteria to your needs
+
+🔒 PRIVACY:
+• Only analyzes LinkedIn feed content
+• No data stored except your preferences
+• Secure OpenAI API integration
+
+Perfect for job seekers, career changers, and professionals who want to focus on real opportunities in their LinkedIn feed!
+
+Note: Requires OpenAI API key for AI analysis functionality. 
