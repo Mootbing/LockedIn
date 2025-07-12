@@ -5,8 +5,7 @@
   "manifest_version": 3,
   "permissions": [
     "storage",
-    "activeTab",
-    "scripting"
+    "activeTab"
   ],
   "host_permissions": [
     "https://www.linkedin.com/*",
